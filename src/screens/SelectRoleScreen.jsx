@@ -1,4 +1,4 @@
-import React, { useRef, useEffect } from 'react';
+import React from 'react';
 import {
     View,
     Text,
@@ -8,18 +8,10 @@ import {
 } from 'react-native';
 import Header from '../components/Header';
 import RoleCard from '../components/RoleCard';
+import useFadeIn from '../hooks/useFadeIn';
 
 export default function SelectRoleScreen({ onSelect, onBack }) {
-    const opacity = useRef(new Animated.Value(0)).current;
-
-    useEffect(() => {
-        Animated.timing(opacity, {
-            toValue: 1,
-            duration: 450,
-            useNativeDriver: true,
-        }).start();
-    }, [opacity]);
-
+    const fadeInContent = useFadeIn();
     return (
         <ImageBackground
             source={require('../assets/select-bg.png')}
@@ -33,22 +25,7 @@ export default function SelectRoleScreen({ onSelect, onBack }) {
                 <Header title="Оберіть роль" onBack={onBack} />
 
                 {/* FADE-IN CONTENT */}
-                <Animated.View
-                    style={[
-                        styles.content,
-                        {
-                            opacity,
-                            transform: [
-                                {
-                                    translateY: opacity.interpolate({
-                                        inputRange: [0, 1],
-                                        outputRange: [12, 0],
-                                    }),
-                                },
-                            ],
-                        },
-                    ]}
-                >
+                <Animated.View style={[styles.content, fadeInContent]}>
                     <Text style={styles.subtitle}>
                         Ви завжди зможете змінити її пізніше
                     </Text>

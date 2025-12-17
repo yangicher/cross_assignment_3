@@ -1,86 +1,81 @@
 import React from 'react';
-import { View, Text, StyleSheet, Image, ImageBackground, useWindowDimensions } from 'react-native';
+import {
+    View,
+    Text,
+    StyleSheet,
+    ImageBackground,
+    Image,
+    Animated,
+} from 'react-native';
+import GradientCustomButton from '../components/GradientCustomButton';
 import CustomButton from '../components/CustomButton';
-import { colors } from '../theme/colors';
-import GradientCustomButton from "../components/GradientCustomButton";
+import useFadeIn from '../hooks/useFadeIn';
 
-export default function StartScreen({ onStartPress, onLoginPress }) {
-    const { width, height } = useWindowDimensions();
-    const isLandscape = width > height;
-
-    const contentMaxWidth = Math.min(width, 420);
-    const bottomPadding = Math.max(18, height * 0.04);
+export default function StartScreen({
+                                        onStartPress,
+                                        onLoginPress,
+                                    }) {
+    const fadeInButtons = useFadeIn();
 
     return (
-        <View style={styles.container}>
-            {/* Background image */}
-            <ImageBackground
-                source={require('../assets/start-bg.png')}
-                style={styles.bg}
-                resizeMode="cover"
-            >
-                <View style={styles.overlay} />
-            </ImageBackground>
-
-
-            {/* Overlay */}
+        <ImageBackground
+            source={require('../assets/start-bg.png')}
+            style={styles.bg}
+            resizeMode="cover"
+        >
             <View style={styles.overlay} />
 
-            {/* Content */}
-            <View
-                style={[
-                    styles.content,
-                    { maxWidth: contentMaxWidth, paddingBottom: bottomPadding },
-                    isLandscape && { justifyContent: 'center' },
-                ]}
-            >
-                <View>
+            <View style={styles.screen}>
+                {/* LOGO */}
+                <View style={styles.top}>
                     <Image
                         source={require('../assets/logo.png')}
                         style={styles.logo}
                     />
-
-                    <Text style={styles.tagline}>З ментором легше</Text>
+                    <Text style={styles.tagline}>
+                        З ментором легше
+                    </Text>
                 </View>
+                
+                {/* FADE-IN BUTTONS */}
+                <Animated.View style={[styles.buttons, fadeInButtons]}>
+                    <GradientCustomButton
+                        title="Розпочати"
+                        size="lg"
+                        gradient="primary"
+                        onPress={onStartPress}
+                    />
 
-                <View style={{ height: 18 }} />
-
-                <GradientCustomButton
-                    title="Розпочати"
-                    size="lg"
-                    gradient="primary"
-                    onPress={onStartPress}
-                />
-
-                <CustomButton
-                    title="Вже маєте обліковий запис? Увійти"
-                    size="lg"
-                    variant="ghost"
-                    onPress={onLoginPress}
-                    style={{ marginTop: 12 }}
-                />
+                    <CustomButton
+                        title="Вже маєте обліковий запис? Увійти"
+                        size="lg"
+                        variant="ghost"
+                        onPress={onLoginPress}
+                        style={{ marginTop: 12 }}
+                    />
+                </Animated.View>
             </View>
-        </View>
+        </ImageBackground>
     );
 }
 
 const styles = StyleSheet.create({
-    container: { flex: 1, backgroundColor: colors.bg },
     bg: {
-        ...StyleSheet.absoluteFillObject,
-        width: undefined,
-        height: undefined,
+        flex: 1,
     },
     overlay: {
         ...StyleSheet.absoluteFillObject,
-        backgroundColor: colors.overlay,
+        backgroundColor: 'rgba(0,0,0,0.25)',
     },
-    content: {
+    screen: {
         flex: 1,
-        alignSelf: 'center',
-        width: '100%',
         paddingHorizontal: 20,
-        justifyContent: 'flex-end',
+        justifyContent: 'space-between',
+        paddingBottom: 40,
+    },
+    top: {
+        marginTop: 120,
+        alignItems: 'center',
     },
     logo: {
         width: 120,
@@ -89,9 +84,10 @@ const styles = StyleSheet.create({
         marginBottom: 8,
     },
     tagline: {
-        marginTop: 6,
         fontSize: 14,
-        fontWeight: '600',
-        color: colors.muted,
+        color: 'rgba(255,255,255,0.8)',
+    },
+    buttons: {
+        width: '100%',
     },
 });

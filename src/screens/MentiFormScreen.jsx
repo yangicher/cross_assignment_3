@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState } from 'react';
 import {
     View,
     StyleSheet,
@@ -9,21 +9,13 @@ import {
 import InputField from '../components/InputField';
 import CustomButton from '../components/CustomButton';
 import Header from '../components/Header';
+import useFadeIn from '../hooks/useFadeIn';
 
 export default function MentiFormScreen({ onBack, onNext }) {
     const [name, setName] = useState('');
     const [goal, setGoal] = useState('');
     const [level, setLevel] = useState('');
-
-    const opacity = useRef(new Animated.Value(0)).current;
-
-    useEffect(() => {
-        Animated.timing(opacity, {
-            toValue: 1,
-            duration: 450,
-            useNativeDriver: true,
-        }).start();
-    }, [opacity]);
+    const fadeInForm = useFadeIn();
 
     return (
         <ImageBackground
@@ -41,22 +33,7 @@ export default function MentiFormScreen({ onBack, onNext }) {
                     onBack={onBack}
                 />
 
-                <Animated.View
-                    style={[
-                        styles.animatedContent,
-                        {
-                            opacity,
-                            transform: [
-                                {
-                                    translateY: opacity.interpolate({
-                                        inputRange: [0, 1],
-                                        outputRange: [12, 0],
-                                    }),
-                                },
-                            ],
-                        },
-                    ]}
-                >
+                <Animated.View style={[styles.content, fadeInForm]}>
                     <ScrollView
                         contentContainerStyle={styles.content}
                         showsVerticalScrollIndicator={false}
