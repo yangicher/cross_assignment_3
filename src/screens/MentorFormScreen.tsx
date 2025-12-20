@@ -13,31 +13,33 @@ import CustomButton from '../components/CustomButton';
 import useFadeIn from '../hooks/useFadeIn';
 import type { MentorFormData } from '../types/forms';
 
-type Props = {
-    step: number;
-    totalSteps: number;
-    initialValues?: Partial<MentorFormData>;
-    onBack: () => void;
-    onNext?: (data: MentorFormData) => void;
-};
+import { NativeStackScreenProps } from '@react-navigation/native-stack';
+import type { RootStackParamList } from '../navigation/types';
+
+type Props = NativeStackScreenProps<
+    RootStackParamList,
+    'Form'
+>;
 
 export default function MentorFormScreen({
-                                             step,
-                                             totalSteps,
-                                             initialValues = {},
-                                             onBack,
-                                             onNext,
+                                             navigation,
+                                             route,
                                          }: Props) {
+    const { step, totalSteps } = route.params;
     const fadeIn = useFadeIn();
 
-    const [name, setName] = useState(initialValues.name ?? '');
-    const [experience, setExperience] = useState(
-        initialValues.experience ?? ''
-    );
-    const [stack, setStack] = useState(initialValues.stack ?? '');
+    const [name, setName] = useState('');
+    const [experience, setExperience] = useState('');
+    const [stack, setStack] = useState('');
 
     const handleNext = () => {
-        onNext?.({ name, experience, stack });
+        const data: MentorFormData = { name, experience, stack };
+        console.log('Mentor data:', data);
+
+        navigation.reset({
+            index: 0,
+            routes: [{ name: 'MainTabs' }],
+        });
     };
 
     return (
@@ -52,28 +54,14 @@ export default function MentorFormScreen({
                     title="Анкета ментора"
                     step={step}
                     totalSteps={totalSteps}
-                    onBack={onBack}
+                    onBack={() => navigation.goBack()}
                 />
 
                 <Animated.View style={[styles.content, fadeIn]}>
                     <ScrollView showsVerticalScrollIndicator={false}>
-                        <InputField
-                            label="Імʼя"
-                            value={name}
-                            onChangeText={setName}
-                        />
-
-                        <InputField
-                            label="Досвід"
-                            value={experience}
-                            onChangeText={setExperience}
-                        />
-
-                        <InputField
-                            label="Стек"
-                            value={stack}
-                            onChangeText={setStack}
-                        />
+                        <InputField label="Імʼя" placeholder={"name"} value={name} onChangeText={setName} />
+                        <InputField label="Досвід" placeholder={"exp"} value={experience} onChangeText={setExperience} />
+                        <InputField label="Стек" placeholder={"stack"} value={stack} onChangeText={setStack} />
 
                         <CustomButton
                             title="Продовжити"

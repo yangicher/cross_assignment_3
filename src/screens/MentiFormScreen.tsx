@@ -11,36 +11,35 @@ import Header from '../components/Header';
 import InputField from '../components/InputField';
 import CustomButton from '../components/CustomButton';
 import useFadeIn from '../hooks/useFadeIn';
-import type { MentiFormData } from '../types/forms';
+import type {MentiFormData} from '../types/forms';
+import { NativeStackScreenProps } from '@react-navigation/native-stack';
+import type { RootStackParamList } from '../navigation/types';
 
-
-/* ========= TYPES ========= */
-
-type Props = {
-    step: number;
-    totalSteps: number;
-    initialValues?: Partial<MentiFormData>;
-    onBack: () => void;
-    onNext?: (data: MentiFormData) => void;
-};
-
+type Props = NativeStackScreenProps<
+    RootStackParamList,
+    'Form'
+>;
 /* ========= COMPONENT ========= */
 
 export default function MentiFormScreen({
-                                            step,
-                                            totalSteps,
-                                            initialValues = {},
-                                            onBack,
-                                            onNext,
+                                            navigation,
+                                            route,
                                         }: Props) {
+    const { step, totalSteps } = route.params;
     const fadeIn = useFadeIn();
 
-    const [name, setName] = useState(initialValues.name ?? '');
-    const [goal, setGoal] = useState(initialValues.goal ?? '');
-    const [level, setLevel] = useState(initialValues.level ?? '');
+    const [name, setName] = useState('');
+    const [goal, setGoal] = useState('');
+    const [level, setLevel] = useState('');
 
     const handleNext = () => {
-        onNext?.({ name, goal, level });
+        const data: MentiFormData = { name, goal, level };
+        console.log('Mentor data:', data);
+
+        navigation.reset({
+            index: 0,
+            routes: [{ name: 'MainTabs' }],
+        });
     };
 
     return (
@@ -55,25 +54,28 @@ export default function MentiFormScreen({
                     title="Анкета менти"
                     step={step}
                     totalSteps={totalSteps}
-                    onBack={onBack}
+                    onBack={() => navigation.goBack()}
                 />
 
                 <Animated.View style={[styles.content, fadeIn]}>
                     <ScrollView showsVerticalScrollIndicator={false}>
                         <InputField
                             label="Імʼя"
+                            placeholder={"name"}
                             value={name}
                             onChangeText={setName}
                         />
 
                         <InputField
                             label="Ціль навчання"
+                            placeholder={"goal"}
                             value={goal}
                             onChangeText={setGoal}
                         />
 
                         <InputField
                             label="Рівень"
+                            placeholder={"level"}
                             value={level}
                             onChangeText={setLevel}
                         />

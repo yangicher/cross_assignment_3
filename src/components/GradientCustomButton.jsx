@@ -1,6 +1,6 @@
 import React from 'react';
 import { Text, StyleSheet } from 'react-native';
-import LinearGradient from 'react-native-linear-gradient';
+import { LinearGradient } from 'expo-linear-gradient';
 import BaseButton from './BaseButton';
 import {
     BUTTON_GRADIENTS,
@@ -12,7 +12,7 @@ export default function GradientCustomButton({
                                                  onPress,
                                                  size = 'lg',
                                                  gradient = 'primary',
-                                                 style,
+                                                 style = '',
                                              }) {
     const sizeToken = BUTTON_SIZES[size];
     const colors = BUTTON_GRADIENTS[gradient];

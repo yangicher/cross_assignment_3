@@ -1,4 +1,13 @@
 {
   "name": "menti",
-  "displayName": "menti"
+  "displayName": "menti",
+  "ios": {
+    "bundleIdentifier": "com.anonymous.menti"
+  },
+  "expo": {
+    "newArchEnabled": true,
+    "ios": {
+      "bundleIdentifier": "com.anonymous.menti"
+    }
+  }
 }
