@@ -10,7 +10,7 @@ interface ApiResponse {
 export const fetchMentors = async (): Promise<Mentor[]> => {
     try {
         const response = await axios.get<ApiResponse>(
-            `${BASE_URL}/?results=30&inc=login,name,picture,email,phone,location`
+            `${BASE_URL}/?results=10&inc=login,name,picture,email,phone,location`
         );
 
         const rawData = response.data.results;

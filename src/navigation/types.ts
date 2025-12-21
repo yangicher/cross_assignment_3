@@ -1,3 +1,5 @@
+import { Mentor } from '../models/Mentor';
+
 export type RootStackParamList = {
     Home: undefined;
     MentorForm: {
@@ -9,4 +11,6 @@ export type RootStackParamList = {
         totalSteps: number;
     };
     MainTabs: undefined;
+    MentorsList: undefined; 
+    MentorDetails: { mentor: Mentor };
 };

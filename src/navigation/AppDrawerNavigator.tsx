@@ -4,8 +4,11 @@ import { createDrawerNavigator } from '@react-navigation/drawer';
 import MentorTabNavigator from './MentorTabNavigator';
 import MentiTabNavigator from './MentiTabNavigator';
 
+import MentorsNavigator from './MentorsNavigator';
+
 export type AppDrawerParamList = {
     MainTabs: undefined;
+    MentorsFlow: undefined;
 };
 
 const Drawer = createDrawerNavigator<AppDrawerParamList>();
@@ -26,6 +29,11 @@ export default function AppDrawerNavigator({ role }: Props) {
             <Drawer.Screen
                 name="MainTabs"
                 component={role === 'mentor' ? MentorTabNavigator : MentiTabNavigator}
+            />
+            <Drawer.Screen
+                name="MentorsFlow"
+                component={MentorsNavigator}
+                options={{ title: 'Знайти ментора' }}
             />
         </Drawer.Navigator>
     );
