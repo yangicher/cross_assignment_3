@@ -34,7 +34,8 @@ export default function AppTopBar({
                 <TouchableOpacity
                     style={styles.side}
                     onPress={() => {
-                        navigation.getParent()?.navigate('NotificationsSettings');
+                        //navigation.getParent()?.navigate('NotificationsSettings');
+                        navigation.getParent()?.getParent()?.navigate('NotificationSettingsModal');
                     }}
                 >
                     <Ionicons name="notifications-outline" size={22} />
