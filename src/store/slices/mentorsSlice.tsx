@@ -16,6 +16,7 @@ export const getMentors = createAsyncThunk<Mentor[]>(
 
 interface MentorsState {
     list: Mentor[];
+    favorites: Mentor[];
     loading: boolean;
     error: string | null;
     lastUpdated: number | null;
@@ -23,6 +24,7 @@ interface MentorsState {
 
 const initialState: MentorsState = {
     list: [],
+    favorites: [],
     loading: false,
     error: null,
     lastUpdated: null,
@@ -32,6 +34,16 @@ const mentorsSlice = createSlice({
     name: 'mentors',
     initialState,
     reducers: {
+        toggleFavorite: (state, action: PayloadAction<Mentor>) => {
+            const mentor = action.payload;
+            const index = state.favorites.findIndex((m) => m.id === mentor.id);
+
+            if (index >= 0) {
+                state.favorites.splice(index, 1);
+            } else {
+                state.favorites.push(mentor);
+            }
+        },
         clearMentors: (state) => {
             state.list = [];
             state.lastUpdated = null;
@@ -56,4 +68,5 @@ const mentorsSlice = createSlice({
 });
 
 export const { clearMentors } = mentorsSlice.actions;
+export const { toggleFavorite } = mentorsSlice.actions;
 export default mentorsSlice.reducer;

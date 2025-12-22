@@ -21,6 +21,17 @@ const MentorsListTabScreen: React.FC<Props> = ({ navigation }) => {
         }
     }, []);
 
+    React.useLayoutEffect(() => {
+        navigation.setOptions({
+            headerRight: () => (
+                <Button
+                    title="❤️ Обрані"
+                    onPress={() => navigation.navigate('Favorites')}
+                />
+            ),
+        });
+    }, [navigation]);
+
     const handleRefresh = () => {
         dispatch(getMentors());
     };
