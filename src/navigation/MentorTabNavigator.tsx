@@ -7,20 +7,24 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import MentorHomeScreen from '../screens/mentor/MentorHomeScreen';
 import MentorScheduleScreen from '../screens/mentor/MentorScheduleScreen';
 import MessagesScreen from '../screens/common/MessagesScreen';
-import ProfileScreen from '../screens/common/ProfileScreen';
+import SettingsScreen from '../screens/common/SettingsScreen';
+import { useTheme } from '../state/ThemeContext';
 
 const Tab = createBottomTabNavigator();
 
 export default function MentorTabNavigator() {
     const insets = useSafeAreaInsets();
+    const { colors } = useTheme();
 
     return (
         <Tab.Navigator
             screenOptions={{
                 header: (props) => <AppTopBar {...props} />,
-                tabBarActiveTintColor: '#7B61FF',
-                tabBarInactiveTintColor: '#9CA3AF',
+                tabBarActiveTintColor: colors.primary,
+                tabBarInactiveTintColor: colors.subText,
                 tabBarStyle: {
+                    backgroundColor: colors.background,
+                    borderTopColor: colors.border,
                     height: 64 + insets.bottom,
                     paddingBottom: 8 + insets.bottom,
                     paddingTop: 8,
@@ -73,13 +77,13 @@ export default function MentorTabNavigator() {
             />
 
             <Tab.Screen
-                name="Profile"
-                component={ProfileScreen}
+                name="Settings"
+                component={SettingsScreen}
                 options={{
-                    tabBarLabel: 'Профіль',
+                    tabBarLabel: 'Налаштування',
                     tabBarIcon: ({ focused, color, size }) => (
                         <Ionicons
-                            name={focused ? 'person' : 'person-outline'}
+                            name={focused ? 'settings' : 'settings-outline'}
                             size={size}
                             color={color}
                         />
