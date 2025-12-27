@@ -203,8 +203,6 @@ const ScheduleScreen = ({ navigation }: any) => {
 
     return (
         <View style={[styles.container, { backgroundColor: colors.background }]}>
-            <Text style={[styles.pageTitle, { color: colors.text }]}>Мої заняття</Text>
-
             {loading ? (
                 <ActivityIndicator size="large" color={colors.primary} style={{ marginTop: 20 }} />
             ) : (
